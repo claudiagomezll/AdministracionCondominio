@@ -1,5 +1,6 @@
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.*;
 import java.awt.color.*;
 import javax.swing.border.TitledBorder;
 
@@ -9,13 +10,16 @@ import javax.swing.border.TitledBorder;
  * @author (Claudia Gomez) 
  * @version (a version number or a date)
  */
-public class JFAdministracion extends JFrame
+public class JFAdministracion extends JFrame implements ActionListener
 {
     
    private JPanel p1,p2,p3;
+   private JTextArea txtNombre, txtPropietario,txtArea, txtHabitantes, txtPagar;
+   JButton btnCalcular, btnLimpiar;
+   
          
     
-    public JFAdministracion(){
+    public JFAdministracion() {
     
         setTitle("Administración Condominio Savanitas");
         setVisible(true);
@@ -46,13 +50,7 @@ public class JFAdministracion extends JFrame
         p3.setBackground(Color.yellow);
         p3.setBorder( new TitledBorder( "Calculos y Resultados" ) );
         
-        //añadimos paneles v1
-        /*getContentPane().setLayout(new BorderLayout());
-        getContentPane().add(p1, BorderLayout.NORTH);
-        getContentPane().add(p2, BorderLayout.CENTER);
-        getContentPane().add(p3, BorderLayout.SOUTH);
-        pack()*/
-        
+              
         //Se añaden los paneles al formulario "Administración Condominio Savanitas""
         add(p1, BorderLayout.NORTH);
         add(p2, BorderLayout.CENTER);
@@ -63,10 +61,10 @@ public class JFAdministracion extends JFrame
         JLabel lblPropietario =new JLabel("Propietario");
         JLabel lblArea =new JLabel("Area (m2)");
         JLabel lblHabitantes =new JLabel("Numero de habitantes");
-        JTextArea txtNombre=  new JTextArea("");
-        JTextArea txtPropietario=  new JTextArea("");
-        JTextArea txtArea=  new JTextArea("");
-        JTextArea txtHabitantes=  new JTextArea("");
+        txtNombre=  new JTextArea("");
+        txtPropietario=  new JTextArea("");
+        txtArea=  new JTextArea("");
+        txtHabitantes=  new JTextArea("");
         JButton btnBuscar = new JButton("Buscar");
         
         //Añadimos los elementos graficos al panel p1: "Datos de la Propiedad"
@@ -92,9 +90,9 @@ public class JFAdministracion extends JFrame
         
         //Se crean los elementos graficos del panel p3: "Calculos y Resultados"
         JLabel lblPagar=new JLabel("Valor a pagar:");
-        JTextArea txtPagar=new JTextArea("");
-        JButton btnCalcular = new JButton("Calcular");
-        JButton btnLimpiar = new JButton("Limpiar");
+        txtPagar=new JTextArea("");
+        btnCalcular = new JButton("Calcular");
+        btnLimpiar = new JButton("Limpiar");
         
         //Se añaden los elementos graficos al panel p3: "Calculos y Resultados"
         p3.add(lblPagar);
@@ -102,8 +100,54 @@ public class JFAdministracion extends JFrame
         p3.add(btnCalcular);
         p3.add(btnLimpiar);
         
+       //se añaden los escuchadores
+     
+       btnCalcular.addActionListener(this);
+       btnLimpiar.addActionListener(this);
+       btnBuscar.addActionListener(this);
+        
+        
 }
 
-
-
+    public void actionPerformed(ActionEvent evento){
+        
+        String comando = evento.getActionCommand();
+        System.out.println(comando);
+         if (comando.equals("Calcular")){
+             
+            Propiedad p = new Propiedad(txtNombre.getText(),txtPropietario.getText(),Double.parseDouble(txtArea.getText()), Integer.parseInt(txtHabitantes.getText()));
+            Double pago=0.0;
+            if (Double.parseDouble(txtArea.getText())<=120){
+                pago=107000.00;            
+              
+            }else if (Double.parseDouble(txtArea.getText())<=250 ){ 
+                pago=155000.00;
+            
+            }else if (Double.parseDouble(txtArea.getText())<=320){
+                pago=222916.67;}
+                else { 
+                pago=285333.33;}
+                
+               txtPagar.setText(pago.toString());
+            System.out.println("El pago de condominio es:"+pago); 
+            
+        
+        }else if (comando.equals("Limpiar")){
+            txtNombre.setText("");
+            txtPropietario.setText("");
+            txtArea.setText("");
+            txtHabitantes.setText("");
+            
+        }
+        
+    }
 }
+    
+    
+    
+
+
+
+
+
+

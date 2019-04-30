@@ -7,10 +7,10 @@
  */
 public class Propiedad
 {
-    private String nombre;
-    private String propietario;
-    private Double area;
-    private Integer habitantes;
+    public String nombre;
+    public String propietario;
+    public Double area;
+    public Integer habitantes;
     
     public Propiedad(String nombre,String propietario, Double area, 
     Integer habitantes ){
@@ -53,7 +53,17 @@ public class Propiedad
     this.habitantes=habitantes;
     }
     
-    public void calcularPagoAdministración(){
-    
+    public Double calcularPagoAdministración()
+    {
+        Double pago=null;
+        if (area <= 120){
+           pago=107000.00;
+            if(area>=250 && area<=320){
+                pago=222916.67;
+                }else{ 
+                 pago=285333.33;
+                }
+        }
+        return pago;
     }
 }
