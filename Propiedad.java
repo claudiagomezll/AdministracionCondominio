@@ -1,11 +1,11 @@
-
+import java.io.Serializable;
 /**
  * Write a description of class Propiedad here.
  * 
  * @author (Claudia Yamile Gómez Llanez) 
  * @version (a version number or a date)
  */
-public class Propiedad
+public class Propiedad implements Serializable
 {
     public String nombre;
     public String propietario;
@@ -53,17 +53,5 @@ public class Propiedad
     this.habitantes=habitantes;
     }
     
-    public Double calcularPagoAdministración()
-    {
-        Double pago=null;
-        if (area <= 120){
-           pago=107000.00;
-            if(area>=250 && area<=320){
-                pago=222916.67;
-                }else{ 
-                 pago=285333.33;
-                }
-        }
-        return pago;
-    }
+    
 }

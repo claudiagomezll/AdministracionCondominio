@@ -3,6 +3,9 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.awt.color.*;
 import javax.swing.border.TitledBorder;
+import java.io.*;
+import java.util.*;;
+
 
 /**
  * Write a description of class JFAdministracion here.
@@ -16,11 +19,20 @@ public class JFAdministracion extends JFrame implements ActionListener
    private JPanel p1,p2,p3;
    private JTextArea txtNombre, txtPropietario,txtArea, txtHabitantes, txtPagar;
    JButton btnCalcular, btnLimpiar;
-   
+   private Servicio servicio;
          
     
     public JFAdministracion() {
     
+        servicio = new Servicio();
+
+            try{
+                servicio.leeDeFicheroB("propiedades");
+            }catch(IOException e){
+                System.out.println(e.getMessage());
+            }catch(ClassNotFoundException e1){
+            }
+         
         setTitle("Administración Condominio Savanitas");
         setVisible(true);
         setSize(350,400);
@@ -65,6 +77,7 @@ public class JFAdministracion extends JFrame implements ActionListener
         txtPropietario=  new JTextArea("");
         txtArea=  new JTextArea("");
         txtHabitantes=  new JTextArea("");
+        JButton btnGuardar= new JButton("Guardar");
         JButton btnBuscar = new JButton("Buscar");
         
         //Añadimos los elementos graficos al panel p1: "Datos de la Propiedad"
@@ -77,6 +90,7 @@ public class JFAdministracion extends JFrame implements ActionListener
         p1.add(txtArea);
         p1.add(lblHabitantes);
         p1.add(txtHabitantes);
+        p1.add(btnGuardar);
         p1.add(btnBuscar);
         
         //Se crean los elementos graficos del panel p2: "Descuentos"
@@ -104,6 +118,7 @@ public class JFAdministracion extends JFrame implements ActionListener
      
        btnCalcular.addActionListener(this);
        btnLimpiar.addActionListener(this);
+       btnGuardar.addActionListener(this);
        btnBuscar.addActionListener(this);
         
         
@@ -139,8 +154,26 @@ public class JFAdministracion extends JFrame implements ActionListener
             txtHabitantes.setText("");
             
         }
-        
-    }
+        else if (comando.equals("Guardar")){
+            Propiedad p = new Propiedad(txtNombre.getText(),txtPropietario.getText(),Double.parseDouble(txtArea.getText()), Integer.parseInt(txtHabitantes.getText()));
+            this.servicio.agregar(p);
+            try{
+                servicio.salvaAFicheroB("propiedades");
+            }catch(IOException e){
+                System.out.println(e.getMessage());
+            }
+            
+            
+    }else if (comando.equals("Buscar")){
+            Propiedad p = servicio.buscarv(txtNombre.getText());
+            if (p!= null) {
+                txtPropietario.setText(p.getPropietario());
+                txtArea.setText(p.getArea().toString());
+                txtHabitantes.setText(p.getHabitantes().toString());
+            }
+            
+        }
+}
 }
     
     
