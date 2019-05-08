@@ -27,10 +27,9 @@ public class JFAdministracion extends JFrame implements ActionListener
         servicio = new Servicio();
 
             try{
-                servicio.leeDeFicheroB("propiedades");
+                servicio.leeDeFicheroP("propiedades");
             }catch(IOException e){
                 System.out.println(e.getMessage());
-            }catch(ClassNotFoundException e1){
             }
          
         setTitle("Administración Condominio Savanitas");
@@ -158,7 +157,7 @@ public class JFAdministracion extends JFrame implements ActionListener
             Propiedad p = new Propiedad(txtNombre.getText(),txtPropietario.getText(),Double.parseDouble(txtArea.getText()), Integer.parseInt(txtHabitantes.getText()));
             this.servicio.agregar(p);
             try{
-                servicio.salvaAFicheroB("propiedades");
+                servicio.salvaAFicheroP("propiedades");
             }catch(IOException e){
                 System.out.println(e.getMessage());
             }
